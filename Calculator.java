@@ -8,7 +8,6 @@ public class Calculator {
             return;
         }
 
-        // Use dynamic counting but keep arrays for simplicity.
         char[] operators = new char[32];
         int[] operands = new int[32];
         int opt_counter = 0;
@@ -16,8 +15,6 @@ public class Calculator {
 
         for (int i = 0; i < str.length(); i++) {
             char ch = str.charAt(i);
-            if (ch >= '0' && ch <= '9') {
-                // faster conversion from char digit to int
                 operands[opd_counter] = operands[opd_counter] * 10 + (ch - '0');
             } else if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
                 operators[opt_counter] = ch;
@@ -29,8 +26,6 @@ public class Calculator {
                 // ignore other characters
             }
         }
-
-        // Evaluate left-to-right using actual operator count
         float result = (float) operands[0];
         for (int n = 0; n < opt_counter; n++) {
             char op = operators[n];
@@ -70,8 +65,7 @@ public class Calculator {
         b.addActionListener(e -> {
             String s = t.getText();
             if (s == null) s = "";
-
-            // If empty: allow only leading minus for negative numbers
+            
             if (s.isEmpty()) {
                 if ("-".equals(txt)) {
                     t.setText("-");
@@ -82,13 +76,10 @@ public class Calculator {
             int n = s.length();
             char last = s.charAt(n - 1);
 
-            // If last char is an operator, replace it with the new operator
             if (last == '+' || last == '-' || last == '*' || last == '/') {
                 t.setText(s.substring(0, n - 1) + txt);
                 return;
             }
-
-            // Normal append
             t.setText(s + txt);
         });
     }
@@ -182,7 +173,6 @@ public class Calculator {
             bpanel.add(bdivid, gbc);
             bpanel.setSize(290, 200);
             tpanel.add(textF);
-            // UX: make text field read-only and right-aligned with a slightly larger font
             textF.setEditable(false);
             textF.setHorizontalAlignment(JTextField.RIGHT);
             textF.setFont(new Font("SansSerif", Font.PLAIN, 18));
@@ -221,41 +211,3 @@ public class Calculator {
 
     }
 }
-
-
-
-// old calculation method which can handel only 2 operands...
-//
-//    public static void calculation(String[] str, JTextField T){
-//        int op1 =0,op2 =0;
-//        int opNum = 1;
-//        char opter = ' ';
-//
-//        for (int i = 0; i < str[0].length(); i++) {
-//            char chr = str[0].charAt(i);
-//            if (chr == '+' ||chr == '-' ||chr == '*' ||chr == '/' ) {
-//                opNum = 2;
-//                opter = chr;
-//            }
-//
-//            else if (chr == '0' ||chr == '1' ||chr == '2' ||chr == '3' ||chr == '4' ||chr == '5' ||chr == '6' ||chr == '7' ||chr == '8' ||chr == '9' ){
-//                if (opNum ==1) op1 = op1*10 +  Integer.parseInt(Character.toString(chr));
-//                else if (opNum == 2) op2 = op2*10 +  Integer.parseInt(Character.toString(chr));
-//            }
-//
-//            else if(chr == ' '){
-//                continue;
-//            }
-//
-//            else if (chr == '=') break;
-//
-//        }
-//
-//        T.setText(switch (opter){
-//            case '+' -> Integer.toString(op1+op2);
-//            case '-' -> Integer.toString(op1-op2);
-//            case '*' -> Integer.toString(op1*op2);
-//            case '/' -> (op2!=0 ? Integer.toString(op1/op2) :"!");
-//            default -> "!";
-//        });
-//    }
